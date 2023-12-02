@@ -9,8 +9,9 @@ if st.button('Balloons?'):
 # Authenticate to Firestore with the JSON account key.
 import json
 key_dict = json.loads(st.secrets["textkey"])
+print(key_dict)
 creds = service_account.Credentials.from_service_account_info(key_dict)
-db = firestore.Client(credentials=creds, project="spending-monitor")
+db = firestore.Client(credentials=creds, project="spending-monitor-aded2")
 # Create a reference to the Google post.
 doc_ref = db.collection("users").document("sCWJrAbRa3dUJgIwyZc8")
 
