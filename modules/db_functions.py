@@ -41,6 +41,9 @@ def user_login(email, password):
         raise ValueError(user['error']['message'])
     return user
 
+def save_transactions():
+    return None
+
 def get_all_transactions(user_id):
     try:
         db = auth_to_firestore()
