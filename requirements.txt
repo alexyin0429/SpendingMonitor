@@ -4,5 +4,5 @@ google-auth
 firebase_admin
 pyrebase
 streamlit-extras
-openai
+openai==0.28
 matplotlib
