@@ -5,3 +5,4 @@ firebase_admin
 pyrebase
 streamlit-extras
 openai
+matplotlib

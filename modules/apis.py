@@ -1,5 +1,6 @@
 import openai
 import streamlit as st
+import time
 
 def categorize_transactions(df_transaction):
     CATEGORY_OPTIONS = ["Shopping", "Restaurant", "Food Delivery", "Grocery", "Utilities", "Income/Refund", "Undefined"]

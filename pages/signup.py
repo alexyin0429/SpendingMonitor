@@ -17,6 +17,7 @@ def signup():
             user, error = user_signup(email, password)
             if user:
                 st.success("Signed up successfully!")
+                st.session_state.user_id = user['localId']
                 if st.button("📊 Dashboard"):
                     switch_page("dashboard")
             else:

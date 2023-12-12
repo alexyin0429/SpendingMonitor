@@ -16,6 +16,7 @@ def login():
             user = user_login(email, password)
             if user:
                 st.success("Login successful!")
+                st.session_state.user_id = user['localId']
                 time.sleep(1)
                 switch_page("dashboard")
         except ValueError as err:
