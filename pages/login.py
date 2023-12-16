@@ -1,4 +1,4 @@
-from modules.db_functions import user_login
+from modules.db_functions import user_login, store_user_id_in_session
 from config.page_config import config_page
 from streamlit_extras.switch_page_button import switch_page 
 import streamlit as st
@@ -16,7 +16,7 @@ def login():
             user = user_login(email, password)
             if user:
                 st.success("Login successful!")
-                st.session_state.user_id = user['localId']
+                store_user_id_in_session(user['localId'])
                 time.sleep(1)
                 switch_page("dashboard")
         except ValueError as err:

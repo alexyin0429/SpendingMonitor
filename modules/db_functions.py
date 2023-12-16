@@ -10,12 +10,23 @@ import firebase_admin
 import json
 import calendar
 
+@st.cache_resource
+def store_user_id_in_session(user_id):
+    st.session_state.user_id = user_id
+    return None
+
+@st.cache_resource
+def extract_curr_user_id_in_session():
+    return st.session_state.user_id
+
+@st.cache_resource
 def auth_to_firestore():
     key_dict = json.loads(st.secrets["textkey"])
     creds = service_account.Credentials.from_service_account_info(key_dict)
     db = firestore.Client(credentials=creds, project="spending-monitor-aded2")
     return db
 
+@st.cache_resource
 def initialize_firebase_admin():
     if not firebase_admin._apps:
         cred = credentials.Certificate("firestore-key.json")
@@ -56,14 +67,13 @@ def save_transactions(input_df, bank, card):
         raise PermissionError(f"Cannot Save Data")
     else:
         db = auth_to_firestore()
-        user_id = st.session_state.user_id
+        user_id = extract_curr_user_id_in_session()
         user_ref = db.collection('users').document(user_id)
         transaction_ref = user_ref.collection('transactions')
         for i, row in input_df.iterrows():
-            date_timestamp = datetime.strptime(row['Date'], '%Y-%m-%d')
             transaction_ref = user_ref.collection('transactions')
             transaction_data = {
-                'date': date_timestamp,
+                'date': row['Date'],
                 'description': row['Description'],
                 'amount': row['Amount'],
                 'category': row['Category'],
@@ -76,7 +86,7 @@ def save_transactions(input_df, bank, card):
 
 def get_all_transactions():
     try:
-        user_id = st.session_state.user_id
+        user_id = extract_curr_user_id_in_session()
         db = auth_to_firestore()
         user_ref = db.collection("users").document(user_id)
         transactions = user_ref.collection("transactions").get()
@@ -86,7 +96,7 @@ def get_all_transactions():
         raise ValueError(f"An error occurred: {e}")
 
 def get_current_month_transactions():
-    user_id = st.session_state.user_id
+    user_id = extract_curr_user_id_in_session()
     db = auth_to_firestore()
     try:
         # Get the first and last day of the current month
@@ -113,7 +123,7 @@ def get_current_month_transactions():
         return None
     
 def get_last_month_transactions():
-    user_id = st.session_state.user_id
+    user_id = extract_curr_user_id_in_session()
     db = auth_to_firestore()
     try:
         # Get the first and last day of the current month

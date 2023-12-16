@@ -1,5 +1,5 @@
 from config.page_config import config_page
-from modules.db_functions import user_signup
+from modules.db_functions import user_signup, store_user_id_in_session
 from streamlit_extras.switch_page_button import switch_page 
 import streamlit as st
 
@@ -17,7 +17,7 @@ def signup():
             user, error = user_signup(email, password)
             if user:
                 st.success("Signed up successfully!")
-                st.session_state.user_id = user['localId']
+                store_user_id_in_session(user['localId'])
                 if st.button("📊 Dashboard"):
                     switch_page("dashboard")
             else:

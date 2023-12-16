@@ -16,12 +16,13 @@ def dashboard():
     # display current month spending
     curr_month_transactions = get_current_month_transactions()
     curr_month_net_spending = calculate_total_spending_amount(curr_month_transactions)
+    str_curr_month_net_spending = str(curr_month_net_spending)
     last_month_transactions = get_last_month_transactions()
     last_month_net_spending = calculate_total_spending_amount(last_month_transactions)
     delta_in_transaction = 100 * (curr_month_net_spending - last_month_net_spending) / last_month_net_spending
-    str_delta_in_transaction = str(delta_in_transaction)
+    str_delta_in_transaction = str(round(delta_in_transaction, 2))
     st.metric(label="Current Month Net Spending Amount 💸", 
-            value=curr_month_net_spending,
+            value="＄" + str_curr_month_net_spending,
             delta=str_delta_in_transaction + ' %',
             delta_color='normal')
 
