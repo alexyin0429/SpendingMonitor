@@ -2,7 +2,7 @@ import pandas as pd
 
 def data_cleaning(df, bank, card):
     if bank == "BMO":
-        if card == "Credit":
+        if card == "Credit Card":
             return _data_cleaning_for_bmo_credit(df)
         else:
             return _data_cleaning_for_bmo_debit(df)
@@ -28,7 +28,7 @@ def _data_cleaning_for_bmo_credit(df):
     df = df.rename(columns={'Transaction Date': 'Date', 
                             'Transaction Amount': 'Amount'})
     # Convert 'Date' from integer to datetime format
-    df['Date'] = pd.to_datetime(df['Date'], format='%Y%m%d')
+    df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d')
     # Creating 'Spending' and 'Income' columns based on 'Amount'
     df['Spending'] = df['Amount'].apply(lambda x: 1 if x > 0 else 0)
     df['Income'] = df['Amount'].apply(lambda x: 1 if x < 0 else 0)
@@ -38,6 +38,7 @@ def _data_cleaning_for_bmo_credit(df):
 
 def _data_cleaning_for_cibc_credit(df):
     df.columns = ['Date', 'Description', 'Spending', 'Income', 'Card']
+    df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d')
     # Drop the 'Card' column
     df = df.drop(columns=['Card'])
     # Create a new 'Amount' column which takes the non-NaN value from either 'Spending' or 'Income'

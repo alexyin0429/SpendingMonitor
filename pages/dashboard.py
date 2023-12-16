@@ -23,8 +23,8 @@ def dashboard():
     str_delta_in_transaction = str(round(delta_in_transaction, 2))
     st.metric(label="Current Month Net Spending Amount 💸", 
             value="＄" + str_curr_month_net_spending,
-            delta=str_delta_in_transaction + ' %',
-            delta_color='normal')
+            delta=str_delta_in_transaction + ' % lower compared to last month',
+            delta_color='inverse')
 
     col1, col2 = st.columns(2)
 
