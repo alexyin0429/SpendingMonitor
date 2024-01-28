@@ -17,7 +17,10 @@ def file_uploader(expected_file_type: list):
             if bank_selected == "CIBC":
                 df = pd.read_csv(uploaded_file, header=None)
             else:
-                df = pd.read_csv(uploaded_file)
+                if card_selected == 'Debit':
+                    df = pd.read_csv(uploaded_file, skiprows=1)
+                else:
+                    df = pd.read_csv(uploaded_file, skiprows=2)
             return df, bank_selected, card_selected
         elif uploaded_file is None and submit_button:
             st.error("File Not Found!", icon="⛔️")
