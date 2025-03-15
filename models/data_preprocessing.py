@@ -7,7 +7,10 @@ def data_cleaning(df, bank, card):
         else:
             return _data_cleaning_for_bmo_debit(df)
     else:
-        return _data_cleaning_for_cibc_credit(df)
+        if card == "Credit Card":
+            return _data_cleaning_for_cibc_credit(df)
+        else:
+            return _data_cleaning_for_cibc_debit(df)
 
 def _data_cleaning_for_bmo_debit(df):
     transaction_amount_column = ' Transaction Amount'
@@ -46,4 +49,9 @@ def _data_cleaning_for_cibc_credit(df):
 
     # Select only the required columns
     df = df[['Date', 'Description', 'Spending', 'Income']]
+    return df
+
+def _data_cleaning_for_cibc_debit(df):
+    df.columns = ['Date', 'Description', 'Spending', 'Income']
+    df['Date'] = pd.to_datetime(df['Date'], format='%Y-%m-%d')
     return df
