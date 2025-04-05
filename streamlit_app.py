@@ -15,14 +15,14 @@ def switch_page(page_name: str):
         from streamlit.runtime.scriptrunner_utils.exceptions import RerunException
         from streamlit.runtime.scriptrunner_utils.script_requests import RerunData
 
-    from streamlit.runtime.pages_manager import get_pages
+    from streamlit.runtime.pages_manager import PagesManager
 
     def standardize_name(name: str) -> str:
         return name.lower().replace("_", " ")
 
     page_name = standardize_name(page_name)
 
-    pages = get_pages("streamlit_app.py")  # OR whatever your main page is called
+    pages = PagesManager.get_pages("streamlit_app.py")  # OR whatever your main page is called
 
     for page_hash, config in pages.items():
         if standardize_name(config["page_name"]) == page_name:
